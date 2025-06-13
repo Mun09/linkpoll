@@ -1,11 +1,14 @@
+import { FieldValue } from "firebase/firestore";
+
 export interface PollOption {
   text: string;
   votes?: number;
 }
 
 export interface Poll {
-  id: string;
+  id?: string;
   title: string;
   options: PollOption[];
-  createdAt?: string;
+  createdAt?: string | FieldValue;
+  voters?: string[];
 }
