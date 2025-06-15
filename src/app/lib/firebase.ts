@@ -1,27 +1,33 @@
-// lib/firebase.ts
-"use client";
+import * as admin from "firebase-admin";
 
-import { initializeApp, getApps } from "firebase/app";
-import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
+// 에뮬레이터 사용 여부를 환경 변수로 제어
+const useEmulator = process.env.NODE_ENV === "development";
 
-const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY!,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN!,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID!,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET!,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID!,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID!,
-  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID!,
-};
+if (!admin.apps.length) {
+  // 에뮬레이터 환경인지 확인
+  if (useEmulator) {
+    admin.initializeApp({ projectId: "linkpoll-8e6e3" }); // Firebase 프로젝트 ID 대체 가능
+  } else {
+    const serviceAccountString = process.env.FIREBASE_SERVICE_ACCOUNT!;
+    const serviceAccount = JSON.parse(serviceAccountString);
+    serviceAccount.private_key = serviceAccount.private_key.replace(
+      /\\n/g,
+      "\n"
+    );
 
-// 앱 중복 초기화 방지
-const app =
-  getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-const db = getFirestore(app);
-
-// 개발 환경일 때만 에뮬레이터 연결
-if (process.env.NODE_ENV === "development") {
-  connectFirestoreEmulator(db, "localhost", 8080);
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+    });
+  }
 }
 
-export { db };
+const adminDb = admin.firestore();
+
+if (!admin.apps.length && process.env.FIRESTORE_EMULATOR_HOST) {
+  adminDb.settings({
+    host: process.env.FIRESTORE_EMULATOR_HOST,
+    ssl: false,
+  });
+}
+
+export { adminDb };
