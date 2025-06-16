@@ -29,12 +29,12 @@ export async function POST(
     const { options, voters = [] } = pollData;
 
     // 중복 투표 방지
-    // if (voters.includes(ip)) {
-    //   return NextResponse.json(
-    //     { error: "You have already voted" },
-    //     { status: 403 }
-    //   );
-    // }
+    if (voters.includes(ip)) {
+      return NextResponse.json(
+        { error: "You have already voted" },
+        { status: 403 }
+      );
+    }
 
     // 투표 수 증가
     options[index].votes = (options[index].votes || 0) + 1;

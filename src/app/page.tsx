@@ -9,13 +9,23 @@ export default function Home() {
   const [title, setTitle] = useState("");
   const [options, setOptions] = useState(["", ""]);
   const [pollLink, setPollLink] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const router = useRouter();
 
   const handleCreate = async () => {
-    const trimmedOptions = options.filter((opt) => opt.trim() !== "");
-    const res = await createPoll({ title, options: trimmedOptions });
-    const link = `${window.location.origin}/polls/${res.data.id}`;
-    setPollLink(link);
+    try {
+      setIsLoading(true);
+      const trimmedOptions = options.filter((opt) => opt.trim() !== "");
+      const res = await createPoll({ title, options: trimmedOptions });
+      const link = `${window.location.origin}/polls/${res.data.id}`;
+      setPollLink(link);
+    } catch (error) {
+      console.error("Failed to create poll:", error);
+      alert("투표 생성 중 오류가 발생했습니다.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const copyToClipboard = () => {
@@ -40,9 +50,18 @@ export default function Home() {
 
   return (
     <>
+      {isLoading && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-5 rounded-lg flex flex-col items-center">
+            <div className="w-16 h-16 border-4 border-t-blue-600 border-r-transparent border-b-blue-600 border-l-transparent rounded-full animate-spin"></div>
+            <p className="mt-4 text-lg font-medium">투표 생성 중...</p>
+          </div>
+        </div>
+      )}
+
       <div>
         <h1 className="text-center text-4xl font-bold text-blue-600">
-          📊 투표 만들기
+          질문 생성
         </h1>{" "}
         {pollLink && (
           <div className="bg-green-50 p-4 rounded-xl border border-green-300 space-y-2">
