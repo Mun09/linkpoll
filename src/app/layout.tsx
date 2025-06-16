@@ -13,6 +13,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="kr">
+      <head>
+        <script
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_CLIENT}`}
+          crossOrigin="anonymous"
+        ></script>
+      </head>
+
       <body className="bg-gray-50 text-gray-900">
         {/* 🔹 상단 고정된 헤더 */}
         <header className="w-full bg-white shadow-md border-b">
