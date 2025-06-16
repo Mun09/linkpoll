@@ -4,10 +4,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createPoll } from "./lib/api";
 import { OptionCard } from "@/components/optionCard";
+import { PollOption } from "./types/poll";
 
 export default function Home() {
   const [title, setTitle] = useState("");
-  const [options, setOptions] = useState(["", ""]);
+  const [options, setOptions] = useState<PollOption[]>([
+    { text: "", votes: 0 },
+    { text: "", votes: 0 },
+  ]);
   const [pollLink, setPollLink] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -16,7 +20,7 @@ export default function Home() {
   const handleCreate = async () => {
     try {
       setIsLoading(true);
-      const trimmedOptions = options.filter((opt) => opt.trim() !== "");
+      const trimmedOptions = options.filter((opt) => opt.text.trim() !== "");
       const res = await createPoll({ title, options: trimmedOptions });
       const link = `${window.location.origin}/polls/${res.data.id}`;
       setPollLink(link);
@@ -33,9 +37,9 @@ export default function Home() {
     alert("링크가 클립보드에 복사되었습니다!");
   };
 
-  const handleOptionChange = (index: number, value: string) => {
+  const handleOptionChange = (index: number, text: string) => {
     const newOptions = [...options];
-    newOptions[index] = value;
+    newOptions[index] = { text: text, votes: 0 };
     setOptions(newOptions);
   };
 
@@ -108,14 +112,16 @@ export default function Home() {
               <OptionCard
                 key={index}
                 index={index}
-                value={option}
+                value={option.text}
                 onChange={(value) => handleOptionChange(index, value)}
                 onDelete={() => handleDeleteOption(index)}
               />
             ))}
           </div>
 
-          <button onClick={() => setOptions([...options, ""])}>
+          <button
+            onClick={() => setOptions([...options, { text: "", votes: 0 }])}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5 mr-1"
@@ -138,7 +144,7 @@ export default function Home() {
           onClick={handleCreate}
           disabled={
             title.trim() === "" ||
-            options.filter((opt) => opt.trim() !== "").length < 2
+            options.filter((opt) => opt.text.trim() !== "").length < 2
           }
         >
           설문 생성

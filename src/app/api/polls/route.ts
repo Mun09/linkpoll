@@ -42,6 +42,7 @@ export const GET = withCors(async () => {
     }));
     return NextResponse.json(polls, { status: 200 });
   } catch (error) {
+    console.error("Error fetching polls:", error);
     return NextResponse.json(
       { error: "Failed to fetch polls" },
       { status: 500 }
