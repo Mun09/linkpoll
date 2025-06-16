@@ -6,7 +6,7 @@ import { adminDb } from "@/app/lib/firebase";
 // GET: 특정 ID의 투표 조회
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params;

@@ -22,6 +22,7 @@ async function createPoll(req: NextRequest) {
     const docRef = await adminDb.collection("polls").add(newPoll);
     return NextResponse.json({ id: docRef.id }, { status: 200 });
   } catch (error) {
+    console.error("Error creating poll:", error);
     return NextResponse.json(
       { error: "Failed to create poll" },
       { status: 500 }

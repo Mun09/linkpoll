@@ -5,7 +5,7 @@ import { Poll } from "@/app/types/poll";
 // POST: 특정 투표 항목에 투표
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params;
