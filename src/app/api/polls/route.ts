@@ -14,7 +14,7 @@ async function createPoll(req: NextRequest) {
 
     const newPoll: Poll = {
       title,
-      options: options.map((text: string) => ({ text, votes: 0 })),
+      options,
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
       voters: [],
     };

@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const ALLOWED_ORIGIN =
-  process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com";
+  process.env.NEXT_PUBLIC_BASE_URL || "https://linkpoll.vercel.app";
 
 export function withCors(
   handler: (req: NextRequest) => Promise<NextResponse> | NextResponse
