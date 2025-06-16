@@ -22,7 +22,6 @@ export async function POST(req: NextRequest) {
     console.log("New poll data:", newPoll);
 
     const docRef = await adminDb.collection("polls").add(newPoll);
-    console.log("Poll created with ID:", docRef.id);
     return NextResponse.json({ id: docRef.id }, { status: 200 });
   } catch (error) {
     console.error("Error creating poll:", error);

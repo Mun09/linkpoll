@@ -1,8 +1,7 @@
 // app/api/polls/[id]/route.ts
 
 import { NextRequest, NextResponse } from "next/server";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "@/app/lib/firebase";
+import { adminDb } from "@/app/lib/firebase";
 
 // GET: 특정 ID의 투표 조회
 export async function GET(
@@ -10,12 +9,11 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
-    const docRef = doc(db, "polls", id);
-    const docSnap = await getDoc(docRef);
+    const docSnap = await adminDb.collection("polls").doc(id).get();
 
-    if (!docSnap.exists()) {
+    if (!docSnap.exists) {
       return NextResponse.json({ error: "Poll not found" }, { status: 404 });
     }
 
