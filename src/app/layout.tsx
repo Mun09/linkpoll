@@ -19,6 +19,15 @@ export default function RootLayout({
           src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_CLIENT}`}
           crossOrigin="anonymous"
         ></script>
+
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+        <meta
+          name="google-site-verification"
+          content="ua8RHsOqlcfoSdqMhzQeomVnm39vhNESjYHPYJtcrqY"
+        />
+
+        <meta property="og:image" content="/favicon.png" />
       </head>
 
       <body className="bg-gray-50 text-gray-900">

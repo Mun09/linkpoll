@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- 배경: 연보라 -->
+  <rect x="0" y="0" width="64" height="64" rx="12" ry="12" fill="#d1c4e9"></rect>
+
+  <!-- 체크박스 박스 -->
+  <rect x="12" y="12" width="40" height="40" rx="6" ry="6" fill="#ffffff" stroke="#7e57c2" stroke-width="4"></rect>
+
+  <!-- 체크표시 -->
+  <path d="M20 34 L28 42 L44 26" fill="none" stroke="#43a047" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path>
+
+  <!-- 상단 라인 (링크 느낌) -->
+  <line x1="20" y1="20" x2="28" y2="20" stroke="#42a5f5" stroke-width="3" stroke-linecap="round"></line>
+  <line x1="36" y1="20" x2="44" y2="20" stroke="#42a5f5" stroke-width="3" stroke-linecap="round"></line>
+</svg>
